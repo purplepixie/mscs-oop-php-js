@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>Javascript OOP</title></head>
+<body>
+<script type="text/javascript">
+
+function T(limit) {
+    this.c = 0;
+    this.i = null;
+    this.l = limit;
+    this.update=function() { document.write(this.c); this.c++; if (this.c>this.l) this.stop(); }
+    this.start=function() { this.i = window.setInterval(this.update, 100); }
+    this.stop=function() { window.clearInterval(this.i); }
+}
+
+var t = new T(10);
+t.start();
+</script>

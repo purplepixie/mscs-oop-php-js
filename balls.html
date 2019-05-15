@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head><title>Javascript OOP</title></head>
+<body>
+
+<canvas id="someCanvas" width=400 height=400></canvas>
+
+<script type="text/javascript">
+
+function Ball() {
+    this.x = 10;
+    this.y = 10;
+    this.xspeed = 2;
+    this.yspeed = 2;
+    this.move = function() {
+        this.x+=this.xspeed;
+        this.y+=this.yspeed;
+    }
+    this.draw = function(ctx) {
+        ctx.save();
+        ctx.fillStyle="rgb(255,0,0)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 20, 0, Math.PI*2, true);
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+function Controller() {
+    this.balls = new Array();
+    this.maxx = 400;
+    this.maxy = 400;
+    this.i = null;
+
+    for(var i=0; i<10; ++i)
+    {
+        var b = new Ball();
+        b.x = Math.floor(Math.random()*Math.floor(this.maxx));
+        b.y = Math.floor(Math.random()*Math.floor(this.maxy));
+        b.xspeed = (Math.floor(Math.random()*Math.floor(18))+2)-10;
+        b.yspeed = (Math.floor(Math.random()*Math.floor(18))+2)-10;
+        this.balls.push(b);
+    }
+
+    var self = this;
+
+    this.start = function()
+    {
+        this.i = window.setInterval(this.update, 10);
+    }
+
+    this.stop = function()
+    {
+        window.clearInterval(this.i);
+    }
+
+    this.update = function()
+    {
+        var ctx = document.getElementById('someCanvas').getContext('2d');
+        ctx.clearRect(0,0,self.maxx,self.maxy);
+        for(var i=0; i<self.balls.length; ++i)
+        {
+            self.balls[i].move();
+            self.balls[i].draw(ctx);
+
+            if (self.balls[i].x>self.maxx) {
+                self.balls[i].xspeed=0-self.balls[i].xspeed;
+                self.balls[i].x=self.maxx;
+            }
+            else if (self.balls[i].x<0) {
+                self.balls[i].xspeed=0-self.balls[i].xspeed;
+                self.balls[i].x=0;
+            }
+
+            if (self.balls[i].y>self.maxy) {
+                self.balls[i].yspeed=0-self.balls[i].yspeed;
+                self.balls[i].y=self.maxy;
+            }
+            else if (self.balls[i].y<0) {
+                self.balls[i].yspeed=0-self.balls[i].yspeed;
+                self.balls[i].y=0;
+            }
+        }
+    }
+}
+
+var c = new Controller();
+c.start();
+
+</script>

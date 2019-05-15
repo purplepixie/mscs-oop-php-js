@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>Javascript OOP</title></head>
+<body>
+<script type="text/javascript">
+
+function MyClass(someValue)
+{
+    this.someVar = someValue;
+    this.someFunc = function() {
+        document.write(this.someVar);
+    }
+}
+
+var x = new MyClass(456);
+x.someFunc();
+
+</script>
